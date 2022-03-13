@@ -6,14 +6,22 @@ namespace Assets.Scripts
 {
     public class CanvasUpdater : MonoBehaviour
     {
-        public Text DungeonSizeText;
-        public Text MinRoomWidthText;
-        public Text MaxRoomWidthText;
-        public Text MinRoomLengthText;
-        public Text MaxRoomLengthText;
-        public Text RoomsAmountText;
-        public Text MinHallwayLengthText;
-        public Text MaxHallwayLengthText;
+        [SerializeField]
+        private Text dungeonSizeText;
+        [SerializeField]
+        private Text minRoomHeightText;
+        [SerializeField]
+        private Text maxRoomHeightText;
+        [SerializeField]
+        private Text minRoomLengthText;
+        [SerializeField]
+        private Text maxRoomLengthText;
+        [SerializeField]
+        private Text roomsAmountText;
+        [SerializeField]
+        private Text minHallwayLengthText;
+        [SerializeField]
+        private Text maxHallwayLengthText;
 
         public int DungeonSize { get; private set; } = 100;
         public int MinRoomHeight { get; private set; } = 1;
@@ -27,49 +35,49 @@ namespace Assets.Scripts
         public void UpdateDungeonSize(float value)
         {
             DungeonSize = (int)value;
-            DungeonSizeText.text = $"{value} x {value}";
+            dungeonSizeText.text = $"{value} x {value}";
         }
 
         public void UpdateMinRoomHeight(float value)
         {
             MinRoomHeight = (int)value;
-            MinRoomWidthText.text = value.ToString(CultureInfo.CurrentCulture);
+            minRoomHeightText.text = value.ToString(CultureInfo.CurrentCulture);
         }
 
         public void UpdateMaxRoomHeight(float value)
         {
             MaxRoomHeight = (int)value;
-            MaxRoomWidthText.text = value.ToString(CultureInfo.CurrentCulture);
+            maxRoomHeightText.text = value.ToString(CultureInfo.CurrentCulture);
         }
 
         public void UpdateMinRoomLength(float value)
         {
             MinRoomLength = (int)value;
-            MinRoomLengthText.text = value.ToString(CultureInfo.CurrentCulture);
+            minRoomLengthText.text = value.ToString(CultureInfo.CurrentCulture);
         }
 
         public void UpdateMaxRoomLength(float value)
         {
             MaxRoomLength = (int)value;
-            MaxRoomLengthText.text = value.ToString(CultureInfo.CurrentCulture);
+            maxRoomLengthText.text = value.ToString(CultureInfo.CurrentCulture);
         }
 
         public void UpdateRoomsAmount(float value)
         {
             RoomsAmount = (int)value;
-            RoomsAmountText.text = value.ToString(CultureInfo.CurrentCulture);
+            roomsAmountText.text = value.ToString(CultureInfo.CurrentCulture);
         }
 
         public void UpdateMinHallwayLength(float value)
         {
             MinHallwayLength = (int)value;
-            MinHallwayLengthText.text = value.ToString(CultureInfo.CurrentCulture);
+            minHallwayLengthText.text = value.ToString(CultureInfo.CurrentCulture);
         }
 
         public void UpdateMaxHallwayLength(float value)
         {
             MaxHallwayLength = (int) value;
-            MaxHallwayLengthText.text = value.ToString(CultureInfo.CurrentCulture);
+            maxHallwayLengthText.text = value.ToString(CultureInfo.CurrentCulture);
         }
     }
 }

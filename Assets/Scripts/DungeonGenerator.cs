@@ -13,9 +13,12 @@ namespace Assets.Scripts
     {
         private const int MAX_LOOP_RUNS = 1000;
 
-        public CanvasUpdater CanvasUpdater;
-        public Sprite Sprite;
-        public Text TilesOffsetText;
+        [SerializeField]
+        private CanvasUpdater canvasUpdater;
+        [SerializeField] 
+        public Sprite sprite;
+        [SerializeField]
+        public Text tilesOffsetText;
 
         private int _dungeonSize;
         private ITileType[,] _dungeonArray;
@@ -30,7 +33,7 @@ namespace Assets.Scripts
         void Start()
         {
             _gridHolder = GameObject.Find("GridHolder");
-            _tilesOffset = 10;
+            _tilesOffset = 0;
         }
 
         void Update()
@@ -44,12 +47,12 @@ namespace Assets.Scripts
         public void UpdateTilesOffset(float value)
         {
             _tilesOffset = value;
-            TilesOffsetText.text = value.ToString(CultureInfo.CurrentCulture);
+            tilesOffsetText.text = value.ToString(CultureInfo.CurrentCulture);
         }
 
         public void GenerateDungeon()
         {
-            _dungeonSize = CanvasUpdater.DungeonSize;
+            _dungeonSize = canvasUpdater.DungeonSize;
             ClearPreviousDungeon();
             CreateEmptyGrid();
             CreateDungeon();
@@ -89,7 +92,7 @@ namespace Assets.Scripts
 
         private void CalculateTileSize()
         {
-            _vertical = (int)Camera.main.orthographicSize;
+            _vertical = (int)Camera.main!.orthographicSize;
             _horizontal = _vertical * (Screen.width / Screen.height);
             if (_dungeonSize > 9)
             {
@@ -104,13 +107,13 @@ namespace Assets.Scripts
         private void CreateDungeon()
         {
             // Room size +2 for the walls on each side.
-            var firstRoomLength = Random.Range(CanvasUpdater.MinRoomLength + 2, CanvasUpdater.MaxRoomLength + 2);
-            var firstRoomHeight = Random.Range(CanvasUpdater.MinRoomHeight + 2, CanvasUpdater.MaxRoomHeight + 2);
+            var firstRoomLength = Random.Range(canvasUpdater.MinRoomLength + 2, canvasUpdater.MaxRoomLength + 2);
+            var firstRoomHeight = Random.Range(canvasUpdater.MinRoomHeight + 2, canvasUpdater.MaxRoomHeight + 2);
             var mapCenter = _dungeonSize / 2;
             CreateRoom(Direction.Up, mapCenter, mapCenter, firstRoomLength, firstRoomHeight);
 
             // i=1 for the first room that was just created.
-            for (int i = 1; i < CanvasUpdater.RoomsAmount; i++)
+            for (int i = 1; i < canvasUpdater.RoomsAmount; i++)
             {
                 for (int loopRun = 0; loopRun < MAX_LOOP_RUNS; loopRun++)
                 {
@@ -120,8 +123,8 @@ namespace Assets.Scripts
                     // Only branch a new room from the wall of a different room or from an existing hallway.
                     if (GetTileType(newRoomBranchX, newRoomBranchY) is WallTile || GetTileType(newRoomBranchX, newRoomBranchY) is HallwayTile)
                     {
-                        int newRoomLength = Random.Range(CanvasUpdater.MinRoomLength + 2, CanvasUpdater.MaxRoomLength + 2);
-                        int newRoomHeight = Random.Range(CanvasUpdater.MinRoomHeight + 2, CanvasUpdater.MaxRoomHeight + 2);
+                        int newRoomLength = Random.Range(canvasUpdater.MinRoomLength + 2, canvasUpdater.MaxRoomLength + 2);
+                        int newRoomHeight = Random.Range(canvasUpdater.MinRoomHeight + 2, canvasUpdater.MaxRoomHeight + 2);
                         var surroundings = GetSurroundings(new Vector2(newRoomBranchX, newRoomBranchY));
 
                         var roomPlaced = surroundings.FirstOrDefault(s => s.Item3 is EmptyTile
@@ -142,7 +145,7 @@ namespace Assets.Scripts
 
         private bool TryPlaceRoom(Direction direction, int xPos, int yPos, int roomLength, int roomHeight)
         {
-            var hallwayLength = Random.Range(CanvasUpdater.MinHallwayLength, CanvasUpdater.MaxHallwayLength);
+            var hallwayLength = Random.Range(canvasUpdater.MinHallwayLength, canvasUpdater.MaxHallwayLength);
             switch (direction)
             {
                 case Direction.Up:
@@ -508,7 +511,7 @@ namespace Assets.Scripts
             g.transform.localScale = new Vector3(_tileSize, _tileSize, _tileSize);
             _dungeonTileGameObjects[x, y] = g;
             var s = g.AddComponent<SpriteRenderer>();
-            s.sprite = Sprite;
+            s.sprite = sprite;
             s.color = tileType.Color;
         }
     }
